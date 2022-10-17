@@ -1,0 +1,9 @@
+.operations{
+    display: flex;
+    flex-direction: column;
+}
+
+.operations button{
+    min-height: 67px;
+    min-width: 30px;
+}

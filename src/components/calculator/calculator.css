@@ -1,0 +1,38 @@
+.numbers{
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-template-rows: 50px 50px 50px 50px;
+}
+
+.calculator{
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btns{
+    display: flex;
+    flex-direction: row;
+}
+
+.btns button{
+    background-color: none;
+    border: none;
+}
+
+.btns button:hover {
+    border: solid 2px rgba(153, 148, 181, 0.5)
+}
+
+.mainComponents{
+    border: solid rgb(153, 148, 181);
+}
+
+.add{
+    background-color: rgba(153, 148, 181, 0.5);
+    color: black;
+    border: none;
+    min-width: 330px;
+    min-height: 30px;
+}
