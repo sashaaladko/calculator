@@ -1,61 +1,82 @@
 import React, { useState } from "react";
-import OutputData from "../outputData/outputData";
-import Button from "../buttonComponent/button";
 import './calculator.css'
-import Operations from '../operations/operations'
 import Calculator from "./calculator";
 
 
 function CalculatorComponent(){
-    const[currentPrice, setcurrentPrice] = useState<string>('')
-    const[currentAmount, setcurrentAmount]=useState<string>('')
-    const [multiplication, setmultiplication] = useState<boolean>(false)
-    const[result, setresult] = useState<number>(0)
+    const[currentPrice, setCurrentPrice] = useState<string>('')
+    const[currentAmount, setCurrentAmount]=useState<string>('')
+    const[multiplication, setMultiplication] = useState<boolean>(false)
+    const[result, setResult] = useState<number>(0)
+    const[addBtn, setAddBtn] = useState<boolean>(false)
+    const[discount, setDiscount] = useState<string>('')
+    const[isDiscount, setIsDiscount] = useState<boolean>(false)
+    const arrayOfNumbers: string[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '.', '0']
     let outputNumber: number = + currentPrice
     let outputAmount: number = + currentAmount
 
-    const btnHandler=(e:any)=>{
-        if(multiplication==false){
+    const btnHandler=(e:string)=>{
+        if(isDiscount){
+            if(!isDiscount||discount.length==2)
+            {setIsDiscount(false)}
+            else setDiscount(discount+e)
+        }
+        else if(!multiplication){
             if(currentPrice.includes('.')){
                 if(e=='.'||currentPrice.split('.')[1].length>1){
-                    setcurrentPrice(currentPrice)
+                    setCurrentPrice(currentPrice)
                 }
-                else setcurrentPrice(currentPrice+e)
+                else setCurrentPrice(currentPrice+e)
             }
-            else setcurrentPrice(currentPrice+e)
+            else setCurrentPrice(currentPrice+e)
         }
-        if(multiplication==true){
+        else{
          if (currentAmount.includes('.')){
             if(e=='.'||currentAmount.split('.')[1].length>2){
-                setcurrentAmount(currentAmount)
+                setCurrentAmount(currentAmount)
             }
-            else setcurrentAmount(currentAmount+e)
+            else setCurrentAmount(currentAmount+e)
             }
-        else setcurrentAmount(currentAmount+e)
+        else setCurrentAmount(currentAmount+e)
         }
     }
 
     function btnHandlerClear(){
-        setcurrentPrice('')
-        setcurrentAmount('')
-        setmultiplication(false)
-        setresult(0)
+        setCurrentPrice('')
+        setCurrentAmount('')
+        setMultiplication(false)
+        setResult(0)
+        setDiscount('')
+        setIsDiscount(false)
     }
 
     function multiplicationHandler(){
-        setmultiplication(true)
+        setMultiplication(true)
     }
 
     function equalHandler(){
         let resultPrice = + (outputAmount*outputNumber).toFixed(2)
-        setresult(resultPrice)
+        setResult(resultPrice)
+    }
+
+    function discountHandler(){
+        setIsDiscount(true)
+    }
+
+    function addHandler(){
+        setAddBtn(true)
+    }
+
+    function backHandler(){
+        setAddBtn(false)
     }
     
    
     return(
         <>
         <Calculator btnHandler={btnHandler} btnHandlerClear={btnHandlerClear} currentPrice={currentPrice} currentAmount={currentAmount} result={result}
-        multiplicationHandler={multiplicationHandler} equalHandler={equalHandler}/>
+        multiplicationHandler={multiplicationHandler} equalHandler={equalHandler} arrayOfNumbers={arrayOfNumbers} addHandler={addHandler} addBtn={addBtn}
+        backHandler={backHandler} discountHandler={discountHandler} isDiscount={isDiscount} discount={discount}/>
         </>
         
         

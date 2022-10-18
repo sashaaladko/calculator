@@ -3,47 +3,53 @@ import OutputData from "../outputData/outputData";
 import Button from "../buttonComponent/button";
 import './calculator.css'
 import Operations from '../operations/operations'
+import TableOfProducts from '../tableOfProducts/tableOfProducts'
 
 interface IProps{
-    btnHandler:(e:any)=>void;
+    btnHandler:(e:string)=>void;
     btnHandlerClear:()=>void
     currentPrice: string;
     currentAmount: string
     result: number;
     multiplicationHandler:()=>void
     equalHandler:()=>void
-
+    arrayOfNumbers: string[]
+    addHandler:()=>void
+    addBtn: boolean
+    backHandler:()=>void
+    discountHandler: ()=>void
+    isDiscount: boolean
+    discount: string 
 }
 
-const Calculator:React.FC<IProps>=({btnHandler, btnHandlerClear, currentAmount, currentPrice, result, multiplicationHandler, equalHandler})=>{
+const Calculator:React.FC<IProps>=({btnHandler, btnHandlerClear, currentAmount, currentPrice, result, multiplicationHandler, equalHandler, 
+    arrayOfNumbers, addHandler, addBtn, backHandler, discountHandler, isDiscount, discount})=>{
    
-   
-    return(
+    return (addBtn&&result!=0) ? (
+        <>
+        <TableOfProducts currentAmount={currentAmount} currentPrice={currentPrice} result={result} discount={discount}/>
+        <button onClick={backHandler}>Назад</button>
+        </>
+    ) : (
+        <>
+       
         <div className="calculator">
+        {isDiscount && <div>Введите скидку</div>}
             <div className="mainComponents">
-            <OutputData currentPrice={currentPrice} currentAmount={currentAmount} result={result}/>
+            <OutputData currentPrice={currentPrice} currentAmount={currentAmount} result={result} discount={discount}/>
             <div className="btns">
                 <div className="numbers">
-                    <button onClick={()=>btnHandler('7')}>7</button>
-                    <button onClick={()=>btnHandler('8')}>8</button>
-                    <button onClick={()=>btnHandler('9')}>9</button>
-                    <button onClick={()=>btnHandler('4')}>4</button>
-                    <button onClick={()=>btnHandler('5')}>5</button>
-                    <button onClick={()=>btnHandler('6')}>6</button>
-                    <button onClick={()=>btnHandler('1')}>1</button>
-                    <button onClick={()=>btnHandler('2')}>2</button>
-                    <button onClick={()=>btnHandler('3')}>3</button>
-                    <button onClick={()=>btnHandler('.')}>.</button>
-                    <button onClick={()=>btnHandler('0')}>0</button>
+                    {arrayOfNumbers.map((e:string)=>(
+                        <button onClick={()=>btnHandler(e)}>{e}</button>
+                    ))}
                     <button onClick={btnHandlerClear}>C</button>
                 </div>
-                <Operations multiplicationHandler={multiplicationHandler} equalHandler={equalHandler}/>
+                <Operations multiplicationHandler={multiplicationHandler} equalHandler={equalHandler} discountHandler={discountHandler}/>
             </div>
-            <button className="add">добавить</button>
+            <button className="add" onClick={addHandler}>добавить</button>
             </div>
         </div>
-        
-        
+        </>
     )
 }
 
